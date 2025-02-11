@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #SBATCH --job-name=alex4
-#SBATCH --partition=gpu_8
+#SBATCH --partition=gpu_4
 #SBATCH --gres=gpu:4   # number of requested GPUs (GPU nodes shared btwn multiple jobs)
 #SBATCH --ntasks=4
 #SBATCH --time=30:00 # wall-clock time limit
@@ -10,7 +10,7 @@
 #SBATCH --mail-type=ALL
 
 export VENVDIR=~/scalable-ai/scalable-ai/.venv
-export PYDIR=~/scalable-ai/scalable-ai/scalai/src/dpnn/
+export PYDIR=~/scalable-ai/scalable-ai/scalai/src/dpnn
 
 # Set up modules.
 module purge                               # Unload all currently loaded modules.
