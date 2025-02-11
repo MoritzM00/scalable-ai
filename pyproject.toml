@@ -12,7 +12,13 @@ authors = [
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
-dependencies = ["numpy>=2.1.1"]
+dependencies = [
+    "h5py>=3.12.1",
+    "matplotlib>=3.10.0",
+    "numpy>=2.1.1",
+    "torch>=2.6.0",
+    "torchvision>=0.21.0",
+]
 
 
 [tool.uv]
@@ -52,7 +58,7 @@ select = [
     # pandas related
     "PD",
 ]
-extend-ignore = ["D203", "D213"]
+extend-ignore = ["D203", "D213", "E501"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"

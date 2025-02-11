@@ -8,10 +8,39 @@
 
 ---
 
+## Working with a Slurm cluster
+
+In this project, we are working on the bwUniCluster 2.0 located at the KIT in Karlsruhe.
+[Hardware and Architecture](https://wiki.bwhpc.de/e/BwUniCluster2.0/Hardware_and_Architecture)
+
+### Viewing idle resources.
+Execute
+```bash
+sinfo_t_idle
+```
+to see idle resources.
+
+### Running a job
+Either use `sbatch <script>` to queue a batch job or run
+ `salloc` to interactively run a job on a node.
+
+[Batch Queues](https://wiki.bwhpc.de/e/BwUniCluster2.0/Batch_Queues)
+
+### Monitoring a job
+Use `squeue` to see the status of your jobs.
+
+Use `scontrol show job <jobid>` to see detailed information about a job.
+See [here](https://wiki.bwhpc.de/e/BwUniCluster2.0/Slurm#Detailed_job_information_:_scontrol_show_job) for more information.
+
+### Cancelling a job
+
+Use `scancel <jobid>` to cancel a job.
+
+
+
 ## Quick Start
 
 Below you can find the quick start guide for development.
-
 ### Set up the environment
 
 1. Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
@@ -21,15 +50,6 @@ Below you can find the quick start guide for development.
 make setup
 source .venv/bin/activate
 ```
-
-### Additional first-time setup
-
-1. After setting up the environment, commit the `uv.lock` file to your repository, so that the workflow on github can use it.
-2. Enable [Pre-Commit CI](https://pre-commit.ci/) for your repository.
-3. Enable **Github Pages** for your documentation.
-   To do that, go to the _Settings_ tab of your repository and scroll down to the _GitHub Pages_ section.
-   For the _Source_ option, select _GitHub Action_. Done!
-
 ### Install new packages
 
 To install new PyPI packages, run:
