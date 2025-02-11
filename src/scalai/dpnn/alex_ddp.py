@@ -5,11 +5,12 @@ import os
 import torch
 import torch.distributed as dist
 import torchvision
-from model import AlexNet
 from torch.nn.parallel import DistributedDataParallel as DDP
-from utils_data import get_dataloaders_cifar10_ddp, get_transforms_cifar10
-from utils_eval import compute_accuracy_ddp
-from utils_train import train_model_ddp
+
+from scalai.dpnn.model import AlexNet
+from scalai.dpnn.utils_data import get_dataloaders_cifar10_ddp, get_transforms_cifar10
+from scalai.dpnn.utils_eval import compute_accuracy_ddp
+from scalai.dpnn.utils_train import train_model_ddp
 
 
 def main():

@@ -6,12 +6,10 @@ from typing import Any
 import numpy as np
 import torch
 import torch.distributed as dist
-import torchvision
+import torchvision as tv
 
 
-def get_transforms_cifar10() -> (
-    tuple[torchvision.transforms.Compose, torchvision.transforms.Compose]
-):
+def get_transforms_cifar10() -> tuple[tv.transforms.Compose, tv.transforms.Compose]:
     """Get transforms applied to CIFAR-10 data for AlexNet training and inference.
 
     Returns
@@ -22,36 +20,34 @@ def get_transforms_cifar10() -> (
         The transforms applied to CIFAR-10 to run inference with AlexNet.
     """
     # Transforms applied to training data (randomness to make network more robust against overfitting)
-    train_transforms = (
-        torchvision.transforms.Compose(  # Compose several transforms together.
-            [
-                torchvision.transforms.Resize(
-                    (70, 70)
-                ),  # Upsample CIFAR-10 images to make them work with AlexNet.
-                torchvision.transforms.RandomCrop(
-                    (64, 64)
-                ),  # Randomly crop image to make NN more robust against overfitting.
-                torchvision.transforms.ToTensor(),  # Convert image into torch tensor.
-                torchvision.transforms.Normalize(
-                    (0.5, 0.5, 0.5), (0.5, 0.5, 0.5)
-                ),  # Normalize to [-1,1] via (image-mean)/std.
-            ]
-        )
+    train_transforms = tv.transforms.Compose(  # Compose several transforms together.
+        [
+            tv.transforms.Resize(
+                (70, 70)
+            ),  # Upsample CIFAR-10 images to make them work with AlexNet.
+            tv.transforms.RandomCrop(
+                (64, 64)
+            ),  # Randomly crop image to make NN more robust against overfitting.
+            tv.transforms.ToTensor(),  # Convert image into torch tensor.
+            tv.transforms.Normalize(
+                (0.5, 0.5, 0.5), (0.5, 0.5, 0.5)
+            ),  # Normalize to [-1,1] via (image-mean)/std.
+        ]
     )
 
-    test_transforms = torchvision.transforms.Compose(
+    test_transforms = tv.transforms.Compose(
         [
-            torchvision.transforms.Resize((70, 70)),
-            torchvision.transforms.CenterCrop((64, 64)),
-            torchvision.transforms.ToTensor(),
-            torchvision.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
+            tv.transforms.Resize((70, 70)),
+            tv.transforms.CenterCrop((64, 64)),
+            tv.transforms.ToTensor(),
+            tv.transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5)),
         ]
     )
     return train_transforms, test_transforms
 
 
 def make_train_validation_split(
-    train_dataset: torchvision.datasets.CIFAR10,
+    train_dataset: tv.datasets.CIFAR10,
     seed: int = 123,
     validation_fraction: float = 0.1,
 ) -> tuple[np.ndarray, np.ndarray]:
@@ -131,20 +127,20 @@ def get_dataloaders_cifar10(
         The testing dataloader.
     """
     if train_transforms is None:
-        train_transforms = torchvision.transforms.ToTensor()
+        train_transforms = tv.transforms.ToTensor()
 
     if test_transforms is None:
-        test_transforms = torchvision.transforms.ToTensor()
+        test_transforms = tv.transforms.ToTensor()
 
-    train_dataset = torchvision.datasets.CIFAR10(
+    train_dataset = tv.datasets.CIFAR10(
         root=data_root, train=True, transform=train_transforms, download=True
     )
 
-    valid_dataset = torchvision.datasets.CIFAR10(
+    valid_dataset = tv.datasets.CIFAR10(
         root=data_root, train=True, transform=test_transforms
     )
 
-    test_dataset = torchvision.datasets.CIFAR10(
+    test_dataset = tv.datasets.CIFAR10(
         root=data_root, train=False, transform=test_transforms
     )
 
@@ -212,14 +208,14 @@ def get_dataloaders_cifar10_ddp(
         The validation dataloader.
     """
     if train_transforms is None:
-        train_transforms = torchvision.transforms.ToTensor()
+        train_transforms = tv.transforms.ToTensor()
     if test_transforms is None:
-        test_transforms = torchvision.transforms.ToTensor()
+        test_transforms = tv.transforms.ToTensor()
 
     if (
         dist.get_rank() == 0
     ):  # Only root shall download dataset if data is not already there.
-        train_dataset = torchvision.datasets.CIFAR10(
+        train_dataset = tv.datasets.CIFAR10(
             root=data_root, train=True, transform=train_transforms, download=True
         )
 
@@ -228,11 +224,11 @@ def get_dataloaders_cifar10_ddp(
     if (
         dist.get_rank() != 0
     ):  # Other ranks must not download dataset at the same time in parallel.
-        train_dataset = torchvision.datasets.CIFAR10(
+        train_dataset = tv.datasets.CIFAR10(
             root=data_root, train=True, transform=train_transforms
         )
 
-    valid_dataset = torchvision.datasets.CIFAR10(
+    valid_dataset = tv.datasets.CIFAR10(
         root=data_root, train=True, transform=test_transforms
     )
 

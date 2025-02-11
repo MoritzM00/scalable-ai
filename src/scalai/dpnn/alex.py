@@ -2,8 +2,9 @@
 
 import torch
 from model import AlexNet
-from utils_data import get_dataloaders_cifar10, get_transforms_cifar10
-from utils_train import train_model
+
+from scalai.dpnn.utils_data import get_dataloaders_cifar10, get_transforms_cifar10
+from scalai.dpnn.utils_train import train_model
 
 if __name__ == "__main__":
     # Transforms on your data allow you to take it from its source state and transform it into ready-for-training data.
