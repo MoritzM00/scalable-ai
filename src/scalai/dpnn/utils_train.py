@@ -3,7 +3,8 @@
 import time
 
 import torch
-from utils_eval import compute_accuracy, get_right_ddp
+
+from scalai.dpnn.utils_eval import compute_accuracy, get_right_ddp
 
 
 def train_model(
@@ -127,7 +128,7 @@ def train_model(
 
         if scheduler is not None:  # Adapt learning rate.
             original_lr = scheduler.get_last_lr()[0]
-            scheduler.step(valid_acc_history[-1])
+            scheduler.step()
             new_lr = scheduler.get_last_lr()[0]
             if original_lr != new_lr:
                 print(f"Epoch: {epoch+1:03d}/{num_epochs:03d}: LR updated to {new_lr}")

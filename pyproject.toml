@@ -11,7 +11,7 @@ authors = [
 ]
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "h5py>=3.12.1",
     "jupyter>=1.1.1",
@@ -21,6 +21,9 @@ dependencies = [
     "torchvision>=0.21.0",
 ]
 
+[project.scripts]
+alex_serial = "scalai.dpnn.alex:main"
+alex_parallel = "scalai.dpnn.alex_ddp:main"
 
 [tool.uv]
 dev-dependencies = [

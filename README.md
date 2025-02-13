@@ -2,7 +2,7 @@
 
 ![Tests](https://img.shields.io/github/actions/workflow/status/MoritzM00/scalable-ai/test_deploy.yaml?style=for-the-badge&label=Test%20and%20Deploy)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=for-the-badge)][pre-commit]
-![License](https://img.shields.io/github/license/MoritzM00/Scalable AI?style=for-the-badge)
+![License](https://img.shields.io/github/license/MoritzM00/Scalable-AI?style=for-the-badge)
 
 [pre-commit]: https://github.com/pre-commit/pre-commit
 
@@ -34,7 +34,7 @@ See [here](https://wiki.bwhpc.de/e/BwUniCluster2.0/Slurm#Detailed_job_informatio
 
 ### Cancelling a job
 
-Use `scancel <jobid>` to cancel a job.
+Use `scancel <jobid>` to cancel a job or e.g. `scancel -t PENDING` to cancel all pending jobs.
 
 
 
