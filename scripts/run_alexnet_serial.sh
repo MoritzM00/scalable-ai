@@ -14,8 +14,6 @@ module load compiler/gnu/13.3              # Load required modules.
 module load mpi/openmpi/4.1
 module load devel/cuda/12.4
 
-# source ${VENVDIR}/bin/activate
-
 RESDIR=./job_${SLURM_JOB_ID}/
 mkdir ${RESDIR}
 cd ${RESDIR}
