@@ -133,3 +133,5 @@ docs/
 
 data/
 **/*.pt
+
+lightning_logs/

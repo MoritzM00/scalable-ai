@@ -15,8 +15,10 @@ requires-python = ">=3.11"
 dependencies = [
     "h5py>=3.12.1",
     "jupyter>=1.1.1",
+    "lightning>=2.5.0.post0",
     "matplotlib>=3.10.0",
     "numpy>=2.1.1",
+    "tensorboard>=2.19.0",
     "torch>=2.6.0",
     "torchvision>=0.21.0",
 ]
@@ -24,6 +26,7 @@ dependencies = [
 [project.scripts]
 alex_serial = "scalai.dpnn.__alex__:main"
 alex_parallel = "scalai.dpnn.__alex_ddp__:main"
+resnext_lightning = "scalai.ddp_lightning:main"
 
 [tool.uv]
 dev-dependencies = [
@@ -62,7 +65,7 @@ select = [
     # pandas related
     "PD",
 ]
-extend-ignore = ["D203", "D213", "E501"]
+extend-ignore = ["D203", "D213", "E501", "D102", "D103", "D101", "D100"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "numpy"
