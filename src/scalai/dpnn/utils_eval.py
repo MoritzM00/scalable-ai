@@ -95,9 +95,9 @@ def plot_results(res_path: pathlib.Path | str) -> None:
 
 
 if __name__ == "__main__":
-    plot_results(res_path="../res/gpu_1")
-    plot_results(res_path="../res/gpu_4")
-    plot_results(res_path="../res/gpu_16")
+    # plot_results(res_path="../res/gpu_1")
+    plot_results(res_path="results/gpu_4")
+    # plot_results(res_path="../res/gpu_16")
 
 
 def get_right_ddp(

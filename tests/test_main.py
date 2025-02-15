@@ -1,8 +1,10 @@
 """Test the `main` module."""
 
-from scalai.main import say_hello
+from scalai.dpnn.model import AlexNet
 
 
-def test_say_hello():
-    """Test the `say_hello` function."""
-    assert say_hello() == "Hello World!"
+def test_instantiate_alexnet():
+    """Test instantiation of AlexNet."""
+    model = AlexNet()
+    assert model is not None
+    assert model.__class__.__name__ == "AlexNet"
