@@ -6,11 +6,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
-# EVALUATION
-# Save to a separate Python module file `utils_eval.py` to import the functions from
-# into your main script and run the training as a batch job later on.
-# Add imports as needed.
-
 
 def compute_accuracy(
     model: torch.nn.Module,
@@ -68,11 +63,19 @@ def plot_results(res_path: pathlib.Path | str) -> None:
     res_path : pathlib.Path
         The path to the results pickle files.
     """
+    map_location = torch.device("cpu")
+
     label_size = 16
     res_path = pathlib.Path(res_path)
-    train_loss = np.array(torch.load(res_path / pathlib.Path("loss.pt")))
-    train_acc = np.array(torch.load(res_path / pathlib.Path("train_acc.pt")))
-    valid_add = np.array(torch.load(res_path / pathlib.Path("valid_acc.pt")))
+    train_loss = np.array(
+        torch.load(res_path / pathlib.Path("loss.pt"), map_location=map_location)
+    )
+    train_acc = np.array(
+        torch.load(res_path / pathlib.Path("train_acc.pt"), map_location=map_location)
+    )
+    valid_add = np.array(
+        torch.load(res_path / pathlib.Path("valid_acc.pt"), map_location=map_location)
+    )
     n_epochs = len(train_acc)
     f, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 4.5))
     epochs_loss = np.linspace(1, n_epochs, train_loss.shape[0])
@@ -92,12 +95,6 @@ def plot_results(res_path: pathlib.Path | str) -> None:
     plt.tight_layout()
     plt.savefig(res_path / pathlib.Path("results.pdf"))
     plt.show()
-
-
-if __name__ == "__main__":
-    # plot_results(res_path="../res/gpu_1")
-    plot_results(res_path="results/gpu_4")
-    # plot_results(res_path="../res/gpu_16")
 
 
 def get_right_ddp(
@@ -162,3 +159,9 @@ def compute_accuracy_ddp(
     """
     correct_pred, num_examples = get_right_ddp(model, data_loader)
     return correct_pred.item() / num_examples.item() * 100
+
+
+if __name__ == "__main__":
+    plot_results(res_path="results/gpu_1")
+    plot_results(res_path="results/gpu_4")
+    # plot_results(res_path="../res/gpu_16")
