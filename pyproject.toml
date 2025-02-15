@@ -22,8 +22,8 @@ dependencies = [
 ]
 
 [project.scripts]
-alex_serial = "scalai.dpnn.alex:main"
-alex_parallel = "scalai.dpnn.alex_ddp:main"
+alex_serial = "scalai.dpnn.__alex__:main"
+alex_parallel = "scalai.dpnn.__alex_ddp__:main"
 
 [tool.uv]
 dev-dependencies = [
