@@ -1,3 +1,6 @@
+import multiprocessing
+import os
+
 import lightning as L
 import torch
 import torch.nn.functional as F
@@ -10,7 +13,13 @@ from torchvision.models import resnext50_32x4d
 
 class ResNeXtLightning(L.LightningModule):
     def __init__(
-        self, n_classes=10, learning_rate=0.01, batch_size=128, *args, **kwargs
+        self,
+        n_classes=10,
+        learning_rate=0.01,
+        batch_size=128,
+        num_workers=8,
+        *args,
+        **kwargs,
     ):
         super().__init__()
         self.save_hyperparameters()
@@ -54,8 +63,8 @@ class ResNeXtLightning(L.LightningModule):
         acc = (preds == y).float().mean()
 
         # Log metrics to TensorBoard
-        self.log("val/loss", loss, on_epoch=True, prog_bar=True, sync_dist=True)
-        self.log("val/acc", acc, on_epoch=True, prog_bar=True, sync_dist=True)
+        self.log("val/loss", loss, on_epoch=True, prog_bar=False, sync_dist=True)
+        self.log("val/acc", acc, on_epoch=True, prog_bar=False, sync_dist=True)
 
     def test_step(self, batch, batch_idx):
         x, y = batch
@@ -92,7 +101,10 @@ class ResNeXtLightning(L.LightningModule):
         )
         dataset = CIFAR10(root="data", train=True, transform=transform, download=True)
         return DataLoader(
-            dataset, batch_size=self.hparams.batch_size, shuffle=True, num_workers=4
+            dataset,
+            batch_size=self.hparams.batch_size,
+            shuffle=True,
+            num_workers=self.hparams.num_workers,
         )
 
     def val_dataloader(self):
@@ -103,17 +115,35 @@ class ResNeXtLightning(L.LightningModule):
             ]
         )
         dataset = CIFAR10(root="data", train=False, transform=transform, download=True)
-        return DataLoader(dataset, batch_size=self.hparams.batch_size, num_workers=4)
+        return DataLoader(
+            dataset,
+            batch_size=self.hparams.batch_size,
+            num_workers=self.hparams.num_workers,
+        )
 
 
 def main():
-    model = ResNeXtLightning()
+    rank = int(
+        os.getenv("SLURM_PROCID")
+    )  # Get individual process ID from SLURM environment variable.
+
+    n_gpus = torch.cuda.device_count()
+    n_cpus = multiprocessing.cpu_count()
+    n_workers = min(4 * n_gpus, n_cpus)
+    if rank == 0:
+        print("Number of GPUs:", n_gpus)
+        print("Number of CPUs:", n_cpus)
+        print(f"Number of workers for DataLoader: {n_workers}")
+
+    model = ResNeXtLightning(
+        num_workers=4 * n_gpus,
+    )
     trainer = L.Trainer(
         max_epochs=100,
         accelerator="auto",
         devices="auto",
         strategy="ddp",
-        precision="32-true",
+        precision="16-mixed",
         logger=L.pytorch.loggers.TensorBoardLogger(
             "lightning_logs", name="resnext_cifar10"
         ),
