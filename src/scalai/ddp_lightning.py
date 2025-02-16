@@ -129,7 +129,7 @@ def main():
 
     n_gpus = torch.cuda.device_count()
     n_cpus = multiprocessing.cpu_count()
-    n_workers = min(4 * n_gpus, n_cpus)
+    n_workers = min(4 * n_gpus, n_cpus // n_gpus)
     if rank == 0:
         print("Number of GPUs:", n_gpus)
         print("Number of CPUs:", n_cpus)
@@ -137,6 +137,8 @@ def main():
 
     model = ResNeXtLightning(
         num_workers=4 * n_gpus,
+        learning_rate=0.01,
+        batch_size=128,
     )
     trainer = L.Trainer(
         max_epochs=100,
