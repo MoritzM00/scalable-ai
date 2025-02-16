@@ -90,7 +90,7 @@ def train_model(
 
             if not batch_idx % logging_interval:
                 print(
-                    f"Epoch: {epoch+1:03d}/{num_epochs:03d} "
+                    f"Epoch: {epoch + 1:03d}/{num_epochs:03d} "
                     f"| Batch {batch_idx:04d}/{len(train_loader):04d} "
                     f"| Loss: {loss:.4f}"
                 )
@@ -112,9 +112,9 @@ def train_model(
             )  # Compute accuracy on validation data.
 
             print(
-                f"Epoch: {epoch+1:03d}/{num_epochs:03d} "
-                f"| Train: {train_acc :.2f}% "
-                f"| Validation: {valid_acc :.2f}%"
+                f"Epoch: {epoch + 1:03d}/{num_epochs:03d} "
+                f"| Train: {train_acc:.2f}% "
+                f"| Validation: {valid_acc:.2f}%"
             )
 
             ## APPEND ACCURACY VALUES TO CORRESPONDING HISTORY LISTS.
@@ -131,7 +131,9 @@ def train_model(
             scheduler.step()
             new_lr = scheduler.get_last_lr()[0]
             if original_lr != new_lr:
-                print(f"Epoch: {epoch+1:03d}/{num_epochs:03d}: LR updated to {new_lr}")
+                print(
+                    f"Epoch: {epoch + 1:03d}/{num_epochs:03d}: LR updated to {new_lr}"
+                )
 
     elapsed = time.perf_counter() - start
     ## Print overall training time.
@@ -232,7 +234,7 @@ def train_model_ddp(
 
             if rank == 0:
                 print(
-                    f"Epoch: {epoch+1:03d}/{num_epochs:03d} "
+                    f"Epoch: {epoch + 1:03d}/{num_epochs:03d} "
                     f"| Batch {batch_idx:04d}/{len(train_loader):04d} "
                     f"| Averaged Loss: {loss:.4f}"
                 )
@@ -272,9 +274,9 @@ def train_model_ddp(
 
             if rank == 0:
                 print(
-                    f"Epoch: {epoch+1:03d}/{num_epochs:03d} "
-                    f"| Train: {train_acc :.2f}% "
-                    f"| Validation: {valid_acc :.2f}%"
+                    f"Epoch: {epoch + 1:03d}/{num_epochs:03d} "
+                    f"| Train: {train_acc:.2f}% "
+                    f"| Validation: {valid_acc:.2f}%"
                 )
 
         elapsed = (time.perf_counter() - start) / 60  # Measure training time per epoch.
