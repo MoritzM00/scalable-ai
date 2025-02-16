@@ -4,7 +4,6 @@ import os
 import lightning as L
 import torch
 import torch.nn.functional as F
-from lightning.pytorch.callbacks import DeviceStatsMonitor
 from lightning.pytorch.callbacks.early_stopping import EarlyStopping
 from lightning.pytorch.callbacks.stochastic_weight_avg import StochasticWeightAveraging
 
@@ -158,7 +157,7 @@ def main():
         logger=L.pytorch.loggers.TensorBoardLogger(
             "lightning_logs", name="resnext_cifar10"
         ),
-        callbacks=[early_stopping, swa, DeviceStatsMonitor()],
+        callbacks=[early_stopping, swa],
         enable_progress_bar=False,
         profiler=profiler,
         fast_dev_run=False,
