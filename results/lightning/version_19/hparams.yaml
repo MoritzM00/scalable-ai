@@ -1,0 +1,4 @@
+batch_size: 256
+learning_rate: 0.01
+n_classes: 10
+num_workers: 16

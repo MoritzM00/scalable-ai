@@ -144,7 +144,7 @@ def main():
     model = ResNeXtLightning(
         num_workers=4 * n_gpus,
         learning_rate=0.01,
-        batch_size=128,
+        batch_size=256,
     )
     early_stopping = EarlyStopping(monitor="val/loss", patience=6)
     swa = StochasticWeightAveraging(swa_lrs=[1e-2])

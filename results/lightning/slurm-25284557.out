@@ -1,0 +1,51 @@
+GpuFreq=control_disabled
+GPU available: True (cuda), used: True
+TPU available: False, using: 0 TPU cores
+HPU available: False, using: 0 HPUs
+Initializing distributed: GLOBAL_RANK: 0, MEMBER: 1/4
+Initializing distributed: GLOBAL_RANK: 1, MEMBER: 2/4
+Initializing distributed: GLOBAL_RANK: 3, MEMBER: 4/4
+Initializing distributed: GLOBAL_RANK: 2, MEMBER: 3/4
+----------------------------------------------------------------------------------------------------
+distributed_backend=nccl
+All distributed processes registered. Starting with 4 processes
+----------------------------------------------------------------------------------------------------
+
+LOCAL_RANK: 0 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 1 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 2 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+LOCAL_RANK: 3 - CUDA_VISIBLE_DEVICES: [0,1,2,3]
+
+  | Name  | Type   | Params | Mode
+-----------------------------------------
+0 | model | ResNet | 23.0 M | train
+-----------------------------------------
+23.0 M    Trainable params
+0         Non-trainable params
+23.0 M    Total params
+91.971    Total estimated model params size (MB)
+151       Modules in train mode
+0         Modules in eval mode
+SLURM auto-requeueing enabled. Setting signal handlers.
+SLURM auto-requeueing enabled. Setting signal handlers.
+SLURM auto-requeueing enabled. Setting signal handlers.
+SLURM auto-requeueing enabled. Setting signal handlers.
+Number of GPUs: 4
+Number of CPUs: 80
+Number of workers for DataLoader: 16
+/pfs/data5/home/kit/stud/usort/scalable-ai/scalable-ai/.venv/lib64/python3.11/site-packages/lightning/pytorch/loops/fit_loop.py:310: The number of training batches (49) is smaller than the logging interval Trainer(log_every_n_steps=50). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.
+
+============================= JOB FEEDBACK =============================
+
+NodeName=uc2n519
+Job ID: 25284557
+Cluster: uc2
+User/Group: usort/stud
+State: COMPLETED (exit code 0)
+Nodes: 1
+Cores per node: 40
+CPU Utilized: 01:15:58
+CPU Efficiency: 12.07% of 10:29:20 core-walltime
+Job Wall-clock time: 00:15:44
+Memory Utilized: 12.76 GB (estimated maximum)
+Memory Efficiency: 16.33% of 78.12 GB (78.12 GB/node)
