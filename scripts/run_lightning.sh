@@ -5,7 +5,7 @@
 #SBATCH --gres=gpu:4   # number of requested GPUs (GPU nodes shared btwn multiple jobs)
 #SBATCH --ntasks-per-node=4
 #SBATCH --time=30:00 # wall-clock time limit
-#SBATCH --mem=40000
+#SBATCH --mem=80000
 #SBATCH --nodes=1
 #SBATCH --mail-type=ALL
 

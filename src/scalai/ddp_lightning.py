@@ -4,6 +4,12 @@ import os
 import lightning as L
 import torch
 import torch.nn.functional as F
+from lightning.pytorch.callbacks import DeviceStatsMonitor
+from lightning.pytorch.callbacks.early_stopping import EarlyStopping
+from lightning.pytorch.callbacks.stochastic_weight_avg import StochasticWeightAveraging
+
+# profiler
+from lightning.pytorch.profilers.simple import SimpleProfiler
 from torch import nn
 from torch.utils.data import DataLoader
 from torchvision import transforms
@@ -140,15 +146,22 @@ def main():
         learning_rate=0.01,
         batch_size=128,
     )
+    early_stopping = EarlyStopping(monitor="val/loss", patience=6)
+    swa = StochasticWeightAveraging(swa_lrs=[1e-2])
+    profiler = SimpleProfiler(filename="perf_logs")
     trainer = L.Trainer(
         max_epochs=100,
         accelerator="auto",
         devices="auto",
         strategy="ddp",
-        precision="16-mixed",
+        precision="32-true",
         logger=L.pytorch.loggers.TensorBoardLogger(
             "lightning_logs", name="resnext_cifar10"
         ),
+        callbacks=[early_stopping, swa, DeviceStatsMonitor()],
+        enable_progress_bar=False,
+        profiler=profiler,
+        fast_dev_run=False,
     )
     trainer.fit(model)
 
